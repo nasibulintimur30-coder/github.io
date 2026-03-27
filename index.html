@@ -1,0 +1,2182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>T-Bank Teen | Твоя финансовая вселенная</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           1. CORE VARIABLES & DESIGN SYSTEM
+        ========================================= */
+        :root {
+            --bg: #000000;
+            --surface: #1C1C1E;
+            --surface-hover: #2C2C2E;
+            --surface-deep: #121214;
+            --text-primary: #FFFFFF;
+            --text-secondary: #8E8E93;
+            --t-yellow: #FFDD2D;
+            --t-blue: #0A84FF;
+            --t-green: #32D74B;
+            --t-red: #FF453A;
+            --t-orange: #FF9F0A;
+            --t-purple: #BF5AF2;
+            --border: rgba(255, 255, 255, 0.08);
+            --safe-bottom: env(safe-area-inset-bottom);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.6);
+            --grad-card: linear-gradient(135deg, #2C2C2E 0%, #000000 100%);
+            --skin-color: #FFDD2D;
+            --skin-glow: 0 0 30px rgba(255, 221, 45, 0.5);
+        }
+
+        /* LIGHT THEME */
+        body.light-theme {
+            --bg: #F2F2F7;
+            --surface: #FFFFFF;
+            --surface-hover: #E5E5EA;
+            --surface-deep: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --border: rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        /* CARD SKINS */
+        body.skin-default { --grad-card: linear-gradient(135deg, #2C2C2E 0%, #000000 100%); --skin-color: #FFDD2D; --skin-glow: 0 0 30px rgba(255, 221, 45, 0.5); }
+        body.skin-deep_blue { --grad-card: linear-gradient(135deg, #003366 0%, #001133 100%); --skin-color: #0A84FF; --skin-glow: 0 0 30px rgba(10, 132, 255, 0.5); }
+        body.skin-purple_night { --grad-card: linear-gradient(135deg, #440088 0%, #220044 100%); --skin-color: #BF5AF2; --skin-glow: 0 0 30px rgba(191, 90, 242, 0.5); }
+        body.skin-gold_crown { --grad-card: linear-gradient(135deg, #886600 0%, #443300 100%); --skin-color: #FFD60A; --skin-glow: 0 0 35px rgba(255, 214, 10, 0.6); }
+        body.skin-blood_moon { --grad-card: linear-gradient(135deg, #660000 0%, #330000 100%); --skin-color: #FF375F; --skin-glow: 0 0 30px rgba(255, 55, 95, 0.5); }
+        body.skin-emerald { --grad-card: linear-gradient(135deg, #006644 0%, #003322 100%); --skin-color: #32D74B; --skin-glow: 0 0 30px rgba(50, 215, 75, 0.5); }
+        body.skin-cyber { --grad-card: linear-gradient(135deg, #004466 0%, #002233 100%); --skin-color: #00F0FF; --skin-glow: 0 0 35px rgba(0, 240, 255, 0.6); }
+        body.skin-sunset { --grad-card: linear-gradient(135deg, #FF6600 0%, #662200 100%); --skin-color: #FF9500; --skin-glow: 0 0 30px rgba(255, 149, 0, 0.5); }
+        body.skin-rose { --grad-card: linear-gradient(135deg, #CC4488 0%, #661144 100%); --skin-color: #FF6BB5; --skin-glow: 0 0 30px rgba(255, 107, 181, 0.5); }
+        body.skin-titanium { --grad-card: linear-gradient(135deg, #444444 0%, #111111 100%); --skin-color: #C0C0C0; --skin-glow: 0 0 25px rgba(192, 192, 192, 0.4); }
+
+        /* =========================================
+           2. RESET & BASE STYLES
+        ========================================= */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Manrope', sans-serif; -webkit-tap-highlight-color: transparent; outline: none; }
+        body { background: var(--bg); color: var(--text-primary); overflow-x: hidden; padding-bottom: calc(100px + var(--safe-bottom)); transition: background 0.5s ease; }
+        body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 0%, rgba(255,221,45,0.03) 0%, transparent 50%); pointer-events: none; z-index: -1; }
+        input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        ::-webkit-scrollbar { display: none; }
+        .yi { color: var(--t-yellow); }
+        .container { padding: 0 16px; max-width: 600px; margin: 0 auto; }
+        
+        /* =========================================
+           3. TYPOGRAPHY & HEADINGS
+        ========================================= */
+        h1 { font-size: 28px; font-weight: 900; letter-spacing: -1px; background: linear-gradient(135deg, var(--skin-color), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        h2 { font-size: 22px; font-weight: 800; margin: 20px 0 15px; }
+        h3 { font-size: 18px; font-weight: 800; margin-bottom: 15px; }
+        .subtitle { font-size: 13px; color: var(--text-secondary); margin-top: -10px; margin-bottom: 20px; font-weight: 600; }
+        .section-title { font-size: 16px; font-weight: 800; margin: 20px 0 12px; display: flex; align-items: center; gap: 8px; }
+
+        /* =========================================
+           4. CARDS & WIDGETS
+        ========================================= */
+        .t-card { background: var(--surface); border-radius: 20px; padding: 16px; margin-bottom: 10px; border: 1px solid var(--border); transition: 0.3s; }
+        .t-card:active { transform: scale(0.98); }
+        .account-card { background: var(--grad-card); border-radius: 24px; padding: 20px; border: 1px solid var(--border); position: relative; overflow: hidden; box-shadow: var(--shadow-lg), var(--skin-glow); transition: all 0.5s ease; }
+        .account-card::before { content: ''; position: absolute; top: -50%; right: -50%; width: 100%; height: 100%; background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.5; pointer-events: none; }
+        .account-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.05) 0%, transparent 60%); pointer-events: none; }
+        .widget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .widget { background: var(--surface); border-radius: 18px; padding: 14px; border: 1px solid var(--border); display: flex; flex-direction: column; justify-content: center; transition: 0.3s; }
+        .widget:active { transform: scale(0.97); border-color: var(--skin-color); }
+
+        /* =========================================
+           5. BUTTONS & INPUTS
+        ========================================= */
+        .btn-primary { background: var(--skin-color); color: #000; border: none; padding: 14px; border-radius: 16px; font-weight: 800; font-size: 15px; width: 100%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .btn-primary:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .btn-primary:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.4), var(--skin-glow); }
+        .btn-secondary { background: var(--surface-hover); color: var(--text-primary); border: none; padding: 12px; border-radius: 14px; font-weight: 700; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.3s; }
+        .btn-secondary:active { transform: scale(0.97); }
+        .auth-input { width: 100%; background: var(--surface-hover); border: 2px solid transparent; padding: 16px; border-radius: 16px; color: var(--text-primary); margin-bottom: 10px; font-size: 15px; font-weight: 600; transition: 0.3s; }
+        .auth-input:focus { border-color: var(--skin-color); box-shadow: 0 0 15px rgba(0,0,0,0.3); }
+
+        /* =========================================
+           6. NAVIGATION
+        ========================================= */
+        .nav-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(28,28,30,0.95); backdrop-filter: blur(25px); border-top: 1px solid var(--border); display: flex; padding: 10px 8px calc(20px + var(--safe-bottom)); z-index: 1000; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; color: var(--text-secondary); cursor: pointer; font-size: 9px; font-weight: 800; transition: 0.3s; padding: 6px 0; border-radius: 10px; }
+        .nav-item:active { background: rgba(255,255,255,0.05); }
+        .nav-item.active { color: var(--skin-color); transform: translateY(-3px); background: rgba(255,255,255,0.08); box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .nav-item i { font-size: 20px; margin-bottom: 2px; transition: 0.3s; }
+        .nav-item.active i { transform: scale(1.1); filter: drop-shadow(0 0 8px var(--skin-color)); }
+
+        /* =========================================
+           7. MODALS & SHEETS
+        ========================================= */
+        .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: flex-end; backdrop-filter: blur(8px); opacity: 0; transition: opacity 0.3s; }
+        .overlay.active { display: flex; opacity: 1; }
+        .sheet { width: 100%; background: var(--surface); border-radius: 30px 30px 0 0; padding: 25px 20px 40px; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); max-height: 90vh; overflow-y: auto; border-top: 2px solid var(--skin-color); }
+        .overlay.active .sheet { transform: translateY(0); }
+        .sheet-handle { width: 40px; height: 5px; background: var(--border); border-radius: 3px; margin: -10px auto 20px; }
+
+        /* =========================================
+           8. TOAST NOTIFICATIONS
+        ========================================= */
+        #toast { position: fixed; top: 60px; left: 50%; transform: translateX(-50%) translateY(-200%); background: var(--surface); padding: 14px 20px; border-radius: 18px; border: 2px solid var(--skin-color); z-index: 10000; transition: 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28); font-weight: 800; box-shadow: var(--shadow-lg), var(--skin-glow); display: flex; align-items: center; gap: 10px; white-space: nowrap; font-size: 14px; }
+        #toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* =========================================
+           9. STORIES SYSTEM
+        ========================================= */
+        .stories { display: flex; gap: 12px; overflow-x: auto; padding: 12px 0 20px; scrollbar-width: none; }
+        .story-circle { min-width: 65px; height: 65px; border-radius: 50%; border: 3px solid var(--skin-color); padding: 3px; cursor: pointer; position: relative; transition: 0.3s; box-shadow: 0 0 15px rgba(0,0,0,0.3); }
+        .story-circle:active { transform: scale(0.95); }
+        .story-img { width: 100%; height: 100%; background: var(--surface-hover); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        
+        .story-viewer { display: none; position: fixed; inset: 0; background: #000; z-index: 3000; flex-direction: column; }
+        .story-viewer.active { display: flex; }
+        .story-progress-container { display: flex; gap: 5px; padding: 15px 10px; position: absolute; top: env(safe-area-inset-top); left: 0; right: 0; z-index: 3010; }
+        .story-progress-bar { flex: 1; height: 3px; background: rgba(255,255,255,0.3); border-radius: 2px; overflow: hidden; }
+        .story-progress-fill { height: 100%; background: var(--skin-color); width: 0%; transition: width 0.1s linear; }
+        .story-content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; text-align: center; position: relative; }
+        .story-close { position: absolute; top: calc(40px + env(safe-area-inset-top)); right: 20px; cursor: pointer; transition: 0.3s; }
+        .story-close:active { transform: scale(1.2); }
+
+        /* =========================================
+           10. PIN CODE & AUTH
+        ========================================= */
+        .auth-screen { position: fixed; inset: 0; background: var(--bg); z-index: 9999; display: flex; flex-direction: column; padding: 30px 20px; justify-content: center; }
+        .pin-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; max-width: 260px; margin: 30px auto; }
+        .pin-dot { width: 12px; height: 12px; border: 2px solid var(--text-secondary); border-radius: 50%; transition: 0.2s; }
+        .pin-dot.active { background: var(--skin-color); border-color: var(--skin-color); transform: scale(1.2); box-shadow: 0 0 10px var(--skin-color); }
+        .pin-key { width: 65px; height: 65px; border-radius: 50%; background: var(--surface-hover); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: 800; cursor: pointer; transition: 0.2s; border: 1px solid var(--border); }
+        .pin-key:active { background: var(--skin-color); color: #000; transform: scale(0.9); }
+
+        /* =========================================
+           11. LISTS, BARS & CHAT
+        ========================================= */
+        .list-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .list-item:last-child { border-bottom: none; }
+        .xp-bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin-top: 10px; overflow: hidden; }
+        .xp-fill { height: 100%; background: var(--skin-color); transition: 0.8s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 0 10px var(--skin-color); }
+        
+        .chat-box { height: 220px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 10px 5px; }
+        .msg { padding: 12px 16px; border-radius: 18px; font-size: 13px; max-width: 85%; line-height: 1.4; animation: msgIn 0.3s ease; }
+        .msg.in { background: var(--surface-hover); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg.out { background: var(--skin-color); color: #000; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 700; }
+        @keyframes msgIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* =========================================
+           12. CALENDAR & WHEEL
+        ========================================= */
+        .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+        .cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: var(--surface-hover); border-radius: 12px; font-weight: 800; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .cal-day.active { background: var(--skin-color); color: #000; box-shadow: 0 0 15px var(--skin-color); transform: scale(1.05); }
+
+        .wheel-container { position: relative; width: 260px; height: 260px; margin: 20px auto; }
+        .wheel-svg { width: 100%; height: 100%; transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); filter: drop-shadow(0 0 20px var(--skin-color)); }
+        .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); z-index: 10; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.5)); }
+
+        /* =========================================
+           13. T-ACADEMY & ACHIEVEMENTS - COMPACT
+        ========================================= */
+        .academy-card { display: flex; gap: 14px; background: var(--surface-hover); padding: 14px; border-radius: 18px; margin-bottom: 10px; align-items: center; transition: 0.3s; }
+        .academy-card:active { transform: scale(0.98); }
+        .academy-icon { width: 50px; height: 50px; border-radius: 14px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        
+        /* COMPACT ACHIEVEMENTS GRID */
+        .achievements-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 12px; }
+        .ach-badge { background: var(--surface-hover); padding: 10px 6px; border-radius: 12px; text-align: center; opacity: 0.4; transition: 0.3s; filter: grayscale(1); }
+        .ach-badge.unlocked { opacity: 1; filter: grayscale(0); background: rgba(255,221,45,0.1); border: 2px solid var(--skin-color); box-shadow: 0 0 15px var(--skin-glow); }
+        .ach-icon { margin-bottom: 6px; }
+        .ach-icon svg { width: 20px; height: 20px; }
+        .ach-badge span { font-size: 9px; font-weight: 800; line-height: 1.2; display: block; }
+
+        /* =========================================
+           14. THEME TOGGLE
+        ========================================= */
+        .theme-toggle-container { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .theme-toggle { width: 55px; height: 30px; background: var(--surface-hover); border-radius: 15px; position: relative; cursor: pointer; transition: 0.3s; }
+        .theme-toggle.active { background: var(--skin-color); }
+        .theme-toggle-handle { position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; background: #fff; border-radius: 50%; transition: 0.3s; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+        .theme-toggle.active .theme-toggle-handle { left: 28px; }
+        .theme-label { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; }
+
+        /* =========================================
+           15. CARD SKINS DISPLAY
+        ========================================= */
+        .card-skin-preview { width: 100%; height: 140px; border-radius: 16px; margin-bottom: 12px; overflow: hidden; border: 2px solid var(--border); position: relative; background: var(--surface-hover); display: flex; align-items: center; justify-content: center; }
+        .card-skin-preview.active { border-color: var(--skin-color); box-shadow: 0 0 20px var(--skin-glow); }
+        .card-skin-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .card-skin-rarity { position: absolute; top: 8px; right: 8px; font-size: 9px; font-weight: 900; padding: 3px 8px; border-radius: 6px; text-transform: uppercase; }
+
+        /* =========================================
+           16. GROUP CHAT & SHARED SAVINGS
+        ========================================= */
+        .group-card { background: linear-gradient(135deg, var(--surface), var(--surface-hover)); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 2px solid var(--border); transition: 0.3s; cursor: pointer; }
+        .group-card:active { transform: scale(0.98); }
+        .group-card.active { border-color: var(--skin-color); box-shadow: 0 0 20px var(--skin-glow); }
+        
+        .group-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .group-avatar { width: 50px; height: 50px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; color: #000; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .group-info { flex: 1; }
+        .group-name { font-weight: 900; font-size: 16px; margin-bottom: 3px; }
+        .group-members { font-size: 11px; color: var(--text-secondary); display: flex; align-items: center; gap: 5px; }
+        
+        .group-pool { background: var(--surface-deep); border-radius: 16px; padding: 16px; margin-top: 12px; }
+        .pool-title { font-size: 11px; color: var(--text-secondary); font-weight: 700; margin-bottom: 6px; }
+        .pool-amount { font-size: 28px; font-weight: 900; color: var(--skin-color); text-shadow: 0 0 20px var(--skin-glow); }
+        .pool-goal { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+        
+        .group-chat-container { height: 320px; display: flex; flex-direction: column; }
+        .group-chat-box { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding: 12px 8px; background: var(--surface-deep); border-radius: 16px; margin-bottom: 12px; }
+        .group-chat-input { display: flex; gap: 8px; }
+        
+        .contribution-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--surface-hover); border-radius: 14px; margin-bottom: 8px; }
+        .contributor { display: flex; align-items: center; gap: 10px; }
+        .contributor-avatar { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; color: #000; }
+        .contributor-name { font-weight: 800; font-size: 13px; }
+        .contributor-time { font-size: 10px; color: var(--text-secondary); margin-top: 2px; }
+        .contrib-amount { font-weight: 900; font-size: 14px; color: var(--t-green); }
+        
+        .member-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .member-chip { display: flex; align-items: center; gap: 5px; background: var(--surface-hover); padding: 6px 10px; border-radius: 16px; font-size: 11px; font-weight: 700; }
+        .member-chip-avatar { width: 22px; height: 22px; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 9px; color: #000; font-weight: 900; }
+        
+        .group-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 12px; }
+        .stat-box { background: var(--surface-hover); padding: 12px; border-radius: 14px; text-align: center; }
+        .stat-value { font-size: 18px; font-weight: 900; color: var(--skin-color); }
+        .stat-label { font-size: 10px; color: var(--text-secondary); margin-top: 3px; font-weight: 700; }
+        
+        .create-group-btn { background: linear-gradient(135deg, var(--skin-color), var(--t-orange)); color: #000; border: none; padding: 14px; border-radius: 16px; font-weight: 800; font-size: 15px; width: 100%; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); margin-bottom: 16px; }
+        .create-group-btn:active { transform: scale(0.96); }
+
+        .empty-state { text-align: center; padding: 30px 20px; opacity: 0.5; }
+        .empty-state-icon { width: 70px; height: 70px; margin: 0 auto 16px; background: var(--surface-hover); border-radius: 20px; display: flex; align-items: center; justify-content: center; color: var(--skin-color); }
+
+        /* =========================================
+           17. OTHER STYLES
+        ========================================= */
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .rarity-tag { font-size: 9px; font-weight: 900; padding: 3px 7px; border-radius: 5px; text-transform: uppercase; display: inline-block; }
+        
+        .rarity-common { background: rgba(142,142,147,0.2); color: #8E8E93; }
+        .rarity-rare { background: rgba(10,132,255,0.2); color: #0A84FF; }
+        .rarity-epic { background: rgba(191,90,242,0.2); color: #BF5AF2; }
+        .rarity-legendary { background: rgba(255,214,10,0.2); color: #FFD60A; }
+        .rarity-mythic { background: rgba(255,55,95,0.2); color: #FF375F; }
+
+        .transaction-item { display: flex; align-items: center; justify-content: space-between; padding: 14px; background: var(--surface-hover); border-radius: 14px; margin-bottom: 8px; transition: 0.3s; }
+        .transaction-item:active { transform: scale(0.98); }
+
+        .budget-category { display: flex; align-items: center; padding: 12px; background: var(--surface-hover); border-radius: 14px; margin-bottom: 8px; }
+        .budget-bar { flex: 1; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; margin: 8px 0; overflow: hidden; }
+        .budget-fill { height: 100%; background: var(--skin-color); border-radius: 3px; transition: width 0.5s ease; }
+
+        .subscription-card { display: flex; align-items: center; padding: 14px; background: linear-gradient(135deg, var(--surface-hover), var(--surface)); border-radius: 16px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .sub-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 12px; }
+        .sub-info { flex: 1; }
+        .sub-name { font-weight: 800; font-size: 14px; }
+        .sub-price { font-size: 11px; color: var(--text-secondary); margin-top: 3px; }
+
+        .streak-badge { display: inline-flex; align-items: center; gap: 6px; background: linear-gradient(135deg, var(--t-orange), var(--t-red)); padding: 6px 12px; border-radius: 16px; font-weight: 900; font-size: 12px; box-shadow: 0 4px 15px rgba(255, 159, 10, 0.4); }
+
+        .setting-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border); }
+        .toggle { width: 48px; height: 26px; background: var(--surface-hover); border-radius: 13px; position: relative; cursor: pointer; transition: 0.3s; }
+        .toggle.active { background: var(--skin-color); }
+        .toggle-handle { position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: #fff; border-radius: 50%; transition: 0.3s; }
+        .toggle.active .toggle-handle { left: 25px; }
+
+        .levelup-anim { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 5000; display: none; align-items: center; justify-content: center; flex-direction: column; }
+        .levelup-anim.active { display: flex; animation: fadeIn 0.5s; }
+        .levelup-anim h2 { font-size: 36px; background: linear-gradient(135deg, var(--skin-color), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 16px; }
+
+        .card-decoration { position: absolute; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, var(--skin-color) 0%, transparent 70%); opacity: 0.1; filter: blur(30px); }
+        .card-decoration.tl { top: -50px; left: -50px; }
+        .card-decoration.br { bottom: -50px; right: -50px; }
+
+        .animated-bg { position: fixed; inset: 0; overflow: hidden; z-index: -1; pointer-events: none; }
+        .floating-shape { position: absolute; border-radius: 50%; background: radial-gradient(circle, var(--skin-color) 0%, transparent 70%); opacity: 0.1; filter: blur(40px); animation: float 20s infinite ease-in-out; }
+        @keyframes float { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(30px, -50px) scale(1.1); } 66% { transform: translate(-20px, 20px) scale(0.9); } }
+
+        .challenge-card { background: linear-gradient(135deg, var(--surface), var(--surface-hover)); border-radius: 20px; padding: 16px; margin-bottom: 12px; border: 2px solid var(--border); position: relative; overflow: hidden; }
+        .challenge-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--skin-color), var(--t-purple)); }
+        .challenge-progress { display: flex; align-items: center; gap: 8px; margin-top: 12px; }
+        .challenge-bar { flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; }
+        .challenge-fill { height: 100%; background: linear-gradient(90deg, var(--skin-color), var(--t-purple)); border-radius: 4px; transition: width 0.5s ease; }
+
+        .insight-card { background: linear-gradient(135deg, rgba(10,132,255,0.1), rgba(191,90,242,0.1)); border-left: 4px solid var(--t-blue); padding: 16px; border-radius: 14px; margin-bottom: 12px; }
+        .insight-title { font-weight: 800; font-size: 14px; margin-bottom: 6px; color: var(--t-blue); }
+        .insight-text { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+        .badge { display: inline-flex; align-items: center; padding: 3px 10px; background: var(--skin-color); color: #000; border-radius: 10px; font-weight: 800; font-size: 11px; }
+
+        .notif-center { position: fixed; top: 0; right: -100%; width: 100%; max-width: 380px; height: 100vh; background: var(--surface); z-index: 4000; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); padding: 18px; overflow-y: auto; }
+        .notif-center.active { right: 0; }
+        .notif-item { background: var(--surface-hover); padding: 14px; border-radius: 14px; margin-bottom: 10px; border-left: 4px solid var(--skin-color); animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    </style>
+</head>
+<body class="skin-default">
+
+<!-- Animated Background -->
+<div class="animated-bg">
+    <div class="floating-shape" style="width: 280px; height: 280px; top: 10%; left: 10%;"></div>
+    <div class="floating-shape" style="width: 180px; height: 180px; top: 60%; right: 10%; animation-delay: -5s;"></div>
+    <div class="floating-shape" style="width: 220px; height: 220px; bottom: 10%; left: 30%; animation-delay: -10s;"></div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#32D74B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span id="toast-msg"></span>
+</div>
+
+<!-- Level Up Animation -->
+<div id="levelup" class="levelup-anim">
+    <svg width="80" height="80" viewBox="0 0 24 24" fill="var(--skin-color)" style="margin-bottom: 16px; animation: bounce 1s infinite;">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+    </svg>
+    <h2>НОВЫЙ УРОВЕНЬ!</h2>
+    <p style="color: var(--text-secondary); margin-top: 8px; font-size: 16px;">Уровень <span id="lvlup-num">2</span></p>
+</div>
+
+<!-- Story Viewer -->
+<div id="storyViewer" class="story-viewer">
+    <div class="story-progress-container" id="storyProgressContainer"></div>
+    <div class="story-close" onclick="stories.close()">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+    </div>
+    <div class="story-content">
+        <div id="storyIcon" style="margin-bottom: 25px;"></div>
+        <h2 id="storyTitle" style="font-size: 28px; margin-bottom: 12px;">Заголовок</h2>
+        <p id="storyText" style="font-size: 16px; opacity: 0.8; font-weight: 600; line-height: 1.5;"></p>
+    </div>
+</div>
+
+<!-- Notifications Center -->
+<div id="notifCenter" class="notif-center">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+        <h2 style="margin: 0; font-size: 22px;">Уведомления</h2>
+        <div onclick="notif.close()" style="cursor: pointer;">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </div>
+    </div>
+    <div id="notifList"></div>
+</div>
+
+<!-- Auth Screen -->
+<div id="screen-auth" class="auth-screen" style="display: flex;">
+    <div style="text-align: center; margin-bottom: 35px;">
+        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, var(--t-yellow), var(--t-orange)); border-radius: 20px; display: inline-flex; align-items: center; justify-content: center; color: #000; font-weight: 900; box-shadow: 0 10px 30px rgba(255,221,45,0.3);">
+            <svg width="45" height="45" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+        </div>
+        <h1 style="margin-top: 20px; font-size: 28px;">T-Bank Teen</h1>
+        <p style="color: var(--text-secondary); margin-top: 5px; font-weight: 600; font-size: 14px;">Твоя финансовая вселенная</p>
+    </div>
+    
+    <div id="auth-login" style="width: 100%; max-width: 320px; margin: 0 auto;">
+        <input type="email" id="log-email" class="auth-input" placeholder="Почта">
+        <input type="password" id="log-pass" class="auth-input" placeholder="Пароль">
+        <button class="btn-primary" onclick="auth.login()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                <polyline points="10 17 15 12 10 7"></polyline>
+                <line x1="15" y1="12" x2="3" y2="12"></line>
+            </svg>
+            Войти
+        </button>
+        <p style="text-align: center; margin-top: 22px; color: var(--t-blue); font-weight: 700; cursor: pointer; font-size: 14px;" onclick="auth.toggle(true)">Создать аккаунт</p>
+    </div>
+
+    <div id="auth-reg" style="display: none; width: 100%; max-width: 320px; margin: 0 auto;">
+        <input type="text" id="reg-name" class="auth-input" placeholder="Имя">
+        <input type="email" id="reg-email" class="auth-input" placeholder="Почта">
+        <input type="password" id="reg-pass" class="auth-input" placeholder="Придумайте пароль">
+        <div style="display: flex; gap: 10px; align-items: center; margin: 8px 0 18px; font-size: 12px; color: var(--text-secondary);">
+            <input type="checkbox" id="reg-policy" checked style="width: 18px; height: 18px; accent-color: var(--t-yellow);">
+            <span>Я принимаю правила использования</span>
+        </div>
+        <button class="btn-primary" onclick="auth.register()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+            </svg>
+            Зарегистрироваться
+        </button>
+        <p style="text-align: center; margin-top: 22px; color: var(--t-blue); font-weight: 700; cursor: pointer; font-size: 14px;" onclick="auth.toggle(false)">Уже есть аккаунт</p>
+    </div>
+</div>
+
+<!-- PIN Screen -->
+<div id="screen-pin" class="auth-screen" style="display: none; align-items: center;">
+    <h2 style="margin-bottom: 25px; font-size: 24px;">Код доступа</h2>
+    <div style="display: flex; gap: 18px; margin-bottom: 35px;" id="pin-dots">
+        <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
+    </div>
+    <div class="pin-grid">
+        <div class="pin-key" onclick="pin.press(1)">1</div><div class="pin-key" onclick="pin.press(2)">2</div><div class="pin-key" onclick="pin.press(3)">3</div>
+        <div class="pin-key" onclick="pin.press(4)">4</div><div class="pin-key" onclick="pin.press(5)">5</div><div class="pin-key" onclick="pin.press(6)">6</div>
+        <div class="pin-key" onclick="pin.press(7)">7</div><div class="pin-key" onclick="pin.press(8)">8</div><div class="pin-key" onclick="pin.press(9)">9</div>
+        <div></div><div class="pin-key" onclick="pin.press(0)">0</div><div class="pin-key" onclick="pin.reset()">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+                <line x1="18" y1="9" x2="12" y2="15"></line>
+                <line x1="12" y1="9" x2="18" y2="15"></line>
+            </svg>
+        </div>
+    </div>
+</div>
+
+<!-- Main App -->
+<div id="app-main" style="display: none;">
+    
+    <!-- HOME TAB -->
+    <div id="tab-home" class="tab-content active container">
+        <header style="display: flex; justify-content: space-between; align-items: center; padding: 18px 0 8px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div id="ui-avatar" style="width: 45px; height: 45px; background: var(--skin-color); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #000; font-size: 18px; box-shadow: 0 4px 15px var(--skin-glow);">J</div>
+                <div>
+                    <div style="font-weight: 800; font-size: 16px;" id="ui-name">Junior</div>
+                    <div style="display: flex; align-items: center; gap: 6px; margin-top: 3px;">
+                        <span style="color: var(--skin-color); font-size: 11px; font-weight: 800;">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--skin-color)" style="display: inline-block; vertical-align: middle; margin-right: 3px;">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                            </svg>
+                            УРОВЕНЬ <span id="ui-lvl">1</span>
+                        </span>
+                        <div class="streak-badge">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff" style="display: inline-block;">
+                                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+                            </svg>
+                            <span id="streak-count">5</span> дн
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <div onclick="notif.open()" style="width: 40px; height: 40px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; position: relative;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--t-yellow)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span class="badge" style="position: absolute; top: -4px; right: -4px; padding: 2px 5px; font-size: 9px;">3</span>
+                </div>
+                <div onclick="ui.sheet('wheel')" style="width: 40px; height: 40px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--t-yellow)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a10 10 0 0 1 10 10"></path>
+                        <path d="M12 12 2.1 12.05"></path>
+                    </svg>
+                </div>
+                <div onclick="ui.sheet('skins')" style="width: 40px; height: 40px; background: var(--surface); border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--t-yellow)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="m14.5 9.5-5 5"></path>
+                        <path d="m9.5 9.5 5 5"></path>
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <div class="stories" id="ui-stories"></div>
+
+        <div class="account-card" id="ui-main-card">
+            <div class="card-decoration tl"></div>
+            <div class="card-decoration br"></div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; position: relative; z-index: 1;">
+                <div>
+                    <div style="font-size: 12px; opacity: 0.8; font-weight: 600;">Счет Тин</div>
+                    <div style="font-size: 36px; font-weight: 900; margin: 6px 0 20px; text-shadow: 0 0 20px rgba(0,0,0,0.5);" id="ui-bal">0 ₽</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.15); padding: 6px; border-radius: 6px; backdrop-filter: blur(10px);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                    </svg>
+                </div>
+            </div>
+            <div style="display: flex; gap: 10px; position: relative; z-index: 1;">
+                <button class="btn-primary" style="flex: 1; background: rgba(255,255,255,0.15); color: #fff; backdrop-filter: blur(10px);" onclick="ui.sheet('pay')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                    Оплатить
+                </button>
+                <button class="btn-primary" style="flex: 1;" onclick="ui.sheet('add')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Пополнить
+                </button>
+            </div>
+            <div class="xp-bar"><div class="xp-fill" id="ui-xp-bar"></div></div>
+            <div style="font-size: 9px; margin-top: 6px; text-align: right; opacity: 0.6;" id="ui-xp-text">0 / 100 XP</div>
+        </div>
+
+        <div class="widget-grid">
+            <div class="widget" onclick="ui.nav('invest')">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="20" x2="18" y2="10"></line>
+                        <line x1="12" y1="20" x2="12" y2="4"></line>
+                        <line x1="6" y1="20" x2="6" y2="14"></line>
+                    </svg>
+                    <span style="font-size: 11px; color: var(--text-secondary); font-weight: 700;">Инвестиции</span>
+                </div>
+                <div style="font-weight: 900; font-size: 16px;" id="w-inv">0 ₽</div>
+            </div>
+            <div class="widget" onclick="ui.nav('safe')">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                    <span style="font-size: 11px; color: var(--text-secondary); font-weight: 700;">Т-Сейф</span>
+                </div>
+                <div style="font-weight: 900; font-size: 16px;" id="w-safe">0 ₽</div>
+                <div style="display: flex; align-items: center; gap: 3px; font-size: 9px; color: var(--t-green); font-weight: 800; margin-top: 4px;">
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--t-green)">
+                        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                        <polyline points="17 6 23 6 23 12"></polyline>
+                    </svg>
+                    +5%!
+                </div>
+            </div>
+        </div>
+
+        <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--t-yellow)" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+            </svg>
+            Т-Дела
+        </div>
+        <div id="ui-tasks"></div>
+
+        <div class="section-title">Достижения</div>
+        <div class="achievements-grid" id="ui-achievements"></div>
+
+        <div class="section-title">Связь с родителями</div>
+        <div class="t-card">
+            <div class="chat-box" id="pChat"></div>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="pMsg" class="auth-input" style="margin:0; padding: 12px; border-radius: 14px;" placeholder="Попросить денег...">
+                <button onclick="logic.sendParentChat()" class="btn-primary" style="width: 50px; border-radius: 14px; padding:0;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STATS TAB -->
+    <div id="tab-stats" class="tab-content container">
+        <h1 style="padding: 18px 0; font-size: 26px;">Аналитика</h1>
+        
+        <div class="t-card" style="padding: 25px 16px;">
+            <canvas id="statChart" style="max-height: 220px;"></canvas>
+        </div>
+
+        <div class="t-card">
+            <div style="display:flex; justify-content:space-between; font-weight:800; margin-bottom:10px; font-size: 14px;">
+                <span>План расходов</span>
+                <span id="ui-plan-perc">0%</span>
+            </div>
+            <div class="xp-bar" style="height:10px; background: var(--surface-hover);">
+                <div class="xp-fill" id="ui-plan-bar" style="width:0%; background:var(--t-blue); box-shadow:none;"></div>
+            </div>
+            <div style="font-size:11px; margin-top:8px; color: var(--text-secondary); font-weight: 700;" id="ui-plan-text">Потрачено 0 ₽ из 15 000 ₽</div>
+        </div>
+
+        <div id="ui-stat-insight" class="insight-card">
+            <div class="insight-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--t-blue)" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                Финансовый совет
+            </div>
+            <div class="insight-text" id="stat-insight-text">Начни отслеживать расходы, чтобы получать персональные рекомендации!</div>
+        </div>
+
+        <h2 style="margin-top: 25px; font-size: 20px;">Расходы по категориям</h2>
+        <div id="ui-stat-list"></div>
+
+        <h2 style="margin-top: 25px; font-size: 20px;">Бюджет</h2>
+        <div id="budget-categories"></div>
+
+        <h2 style="margin-top: 25px; font-size: 20px;">Т-Кешбэк на месяц</h2>
+        <div class="t-card" style="display: flex; justify-content: space-between; align-items: center;" onclick="ui.sheet('cashback')">
+            <div>
+                <div style="font-weight: 800; font-size: 14px;">Выбери 3 категории</div>
+                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">Получай до 10% рублями</div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t-yellow)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+        </div>
+    </div>
+
+    <!-- GOALS TAB -->
+    <div id="tab-goals" class="tab-content container">
+        <h1 style="padding: 18px 0; font-size: 26px;">Цели</h1>
+        
+        <div style="display: flex; gap: 10px; margin-bottom: 16px;">
+            <button class="btn-primary" style="background: var(--surface); color: #fff; border: 1.5px dashed var(--skin-color);" onclick="ui.sheet('goal')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Новая цель
+            </button>
+            <button class="btn-primary" style="background: var(--surface); color: #fff; border: 1.5px dashed var(--t-blue);" onclick="ui.sheet('split')">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Т-Сплит
+            </button>
+        </div>
+
+        <div id="ui-goals-list"></div>
+
+        <h2 style="margin-top: 25px; font-size: 20px;">Финансовые челленджи</h2>
+        <div id="challenges-list"></div>
+    </div>
+
+    <!-- INVEST TAB -->
+    <div id="tab-invest" class="tab-content container">
+        <h1 style="padding: 18px 0; font-size: 26px;">Инвестиции</h1>
+        
+        <div class="account-card" style="background: linear-gradient(135deg, #0055BB 0%, #001133 100%);">
+            <div style="font-size: 12px; opacity: 0.8; font-weight: 600;">Брокерский счет</div>
+            <div style="font-size: 32px; font-weight: 900; margin: 4px 0 8px;" id="ui-inv-total">0 ₽</div>
+            <div style="display: flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 800; color: var(--t-green);">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--t-green)">
+                    <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                    <polyline points="17 6 23 6 23 12"></polyline>
+                </svg>
+                Работает на тебя
+            </div>
+        </div>
+
+        <div class="section-title">Рынок (Live)</div>
+        <div id="ui-market" class="t-card"></div>
+
+        <div class="section-title">Мой портфель</div>
+        <div id="ui-portfolio" class="t-card"></div>
+
+        <h2 style="margin-top: 25px; font-size: 20px;">Обучение инвестициям</h2>
+        <div class="t-card" onclick="ui.sheet('invest-edu')">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div style="width: 45px; height: 45px; background: var(--t-purple); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                    </svg>
+                </div>
+                <div style="flex: 1;">
+                    <div style="font-weight: 800; font-size: 14px;">Основы инвестирования</div>
+                    <div style="font-size: 11px; color: var(--text-secondary); margin-top: 3px;">5 уроков • 30 минут</div>
+                </div>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--t-yellow)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <!-- GROUPS TAB -->
+    <div id="tab-groups" class="tab-content container">
+        <h1 style="padding: 18px 0; font-size: 26px;">Группы</h1>
+        
+        <button class="create-group-btn" onclick="ui.sheet('createGroup')">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Создать группу
+        </button>
+
+        <div id="groups-list"></div>
+
+        <div class="section-title">Активные группы</div>
+        <div id="active-groups"></div>
+    </div>
+
+    <!-- MORE TAB -->
+    <div id="tab-more" class="tab-content container">
+        <h1 style="padding: 18px 0; font-size: 26px;">Сервисы</h1>
+
+        <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--t-yellow)" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+            Т-Академия
+        </div>
+        <div id="ui-academy"></div>
+
+        <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--t-yellow)" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+                <line x1="12" y1="20" x2="12.01" y2="20"></line>
+            </svg>
+            Т-Мобайл
+        </div>
+        <div class="t-card" style="display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <div style="font-weight: 800; font-size: 14px;">Мой номер</div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 3px;">+7 (999) 123-45-67</div>
+                <div style="display: flex; gap: 12px; margin-top: 8px; font-weight: 800; font-size: 12px;">
+                    <span style="color: var(--t-blue);">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--t-blue)" style="display: inline-block; vertical-align: middle; margin-right: 3px;">
+                            <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+                            <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+                        </svg>
+                        14 ГБ
+                    </span>
+                    <span style="color: var(--t-green);">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--t-green)" style="display: inline-block; vertical-align: middle; margin-right: 3px;">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        300 мин
+                    </span>
+                </div>
+            </div>
+            <button class="btn-secondary" style="width: auto; padding: 8px 12px; font-size: 13px;" onclick="ui.toast('Баланс телефона пополнен!')">Пополнить</button>
+        </div>
+
+        <div class="section-title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--t-yellow)" style="display: inline-block; vertical-align: middle; margin-right: 6px;">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            События
+        </div>
+        <div class="t-card"><div class="cal-grid" id="ui-cal"></div></div>
+        
+        <div id="evDetail" class="t-card" style="display: none; border-color: var(--skin-color);">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <b id="evT" style="font-size: 16px;"></b>
+                <div style="cursor: pointer;" onclick="document.getElementById('evDetail').style.display='none'">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+            <p id="evD" style="font-size: 13px; opacity: 0.8; margin: 8px 0 16px;"></p>
+            <div style="font-size: 11px; font-weight: 800; margin-bottom: 8px; color: var(--skin-color);">КОММЕНТАРИИ</div>
+            <div class="chat-box" id="evChat" style="height: 100px; background: var(--surface-deep); padding: 8px; border-radius: 14px;"></div>
+            <div style="display: flex; gap: 6px;">
+                <input type="text" id="evInp" class="auth-input" style="margin:0; padding:10px; font-size:13px; border-radius: 10px;" placeholder="Твой коммент...">
+                <button onclick="logic.sendEvChat()" class="btn-primary" style="width: 45px; border-radius:10px; padding:0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="section-title">Подписки</div>
+        <div id="subscriptions-list"></div>
+
+        <div class="section-title">Настройки</div>
+        <div class="t-card">
+            <div class="theme-toggle-container">
+                <div class="theme-label">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <span>Тема</span>
+                </div>
+                <div class="theme-toggle" id="themeToggle" onclick="ui.toggleTheme()">
+                    <div class="theme-toggle-handle">🌙</div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <circle cx="12" cy="5" r="2"></circle>
+                        <path d="M12 7v4"></path>
+                    </svg>
+                    <span style="font-size: 14px;">Face ID</span>
+                </div>
+                <div class="toggle" onclick="this.classList.toggle('active')">
+                    <div class="toggle-handle"></div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                    <span style="font-size: 14px;">Уведомления</span>
+                </div>
+                <div class="toggle active" onclick="this.classList.toggle('active')">
+                    <div class="toggle-handle"></div>
+                </div>
+            </div>
+        </div>
+        
+        <button class="btn-secondary" onclick="app.logout()" style="width: 100%; color: var(--t-red); margin-top: 25px; border: 1px solid var(--t-red); font-size: 14px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--t-red)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Выйти из аккаунта
+        </button>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="nav-bar">
+        <div class="nav-item active" onclick="ui.nav('home', this)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Главная</span>
+        </div>
+        <div class="nav-item" onclick="ui.nav('stats', this)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>Траты</span>
+        </div>
+        <div class="nav-item" onclick="ui.nav('goals', this)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+            <span>Цели</span>
+        </div>
+        <div class="nav-item" onclick="ui.nav('groups', this)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Группы</span>
+        </div>
+        <div class="nav-item" onclick="ui.nav('more', this)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="1"></circle>
+                <circle cx="19" cy="12" r="1"></circle>
+                <circle cx="5" cy="12" r="1"></circle>
+            </svg>
+            <span>Еще</span>
+        </div>
+    </nav>
+</div>
+
+<!-- Modal Sheet -->
+<div id="modal-sheet" class="overlay" onclick="if(event.target==this) ui.close()">
+    <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div id="sheet-content"></div>
+    </div>
+</div>
+
+<!-- Group Chat Modal -->
+<div id="groupChatModal" class="overlay" style="z-index: 3000;">
+    <div class="sheet" style="max-height: 95vh;">
+        <div class="sheet-handle"></div>
+        <div id="group-chat-content"></div>
+    </div>
+</div>
+
+<script>
+/* =========================================
+   CORE DATA & STATE MANAGEMENT
+========================================= */
+const DB_KEY = 't_bank_teen_v5_final';
+const storage = {
+    save: (data) => localStorage.setItem(DB_KEY, JSON.stringify(data)),
+    load: () => JSON.parse(localStorage.getItem(DB_KEY)) || {}
+};
+
+const CHART_COLORS = ['#FFDD2D', '#0A84FF', '#32D74B', '#FF453A', '#BF5AF2', '#FF9F0A'];
+
+// CARD SKINS WITH IMAGES
+const CARD_SKINS = {
+    'default': { n: 'Классика', r: 'Common', c: '#FFDD2D', odds: 35, img: 'card1.jpg' },
+    'deep_blue': { n: 'Deep Blue', r: 'Rare', c: '#0A84FF', odds: 25, img: 'card2.jpg' },
+    'purple_night': { n: 'Purple Night', r: 'Epic', c: '#BF5AF2', odds: 15, img: 'card3.jpg' },
+    'gold_crown': { n: 'Gold Crown', r: 'Legendary', c: '#FFD60A', odds: 5, img: 'card4.jpg' },
+    'cyber': { n: 'Cyber', r: 'Mythic', c: '#00F0FF', odds: 3, img: 'card5.jpg' }
+};
+
+// Investment Market
+const MARKET_BASE = [
+    {id: 1, n: "Т-Облигации 2026", p: 1000, i: "building", vol: 5},
+    {id: 2, n: "IT-Сектор (Акции)", p: 3200, i: "code", vol: 25},
+    {id: 3, n: "Золотой запас", p: 4500, i: "coins", vol: 15},
+    {id: 4, n: "Эко-Транспорт", p: 1200, i: "leaf", vol: 10},
+    {id: 5, n: "Крипто-Фонд", p: 5500, i: "bitcoin", vol: 40}
+];
+
+// Academy Lessons
+const ACADEMY = [
+    {id: 1, t: "Что такое подушка безопасности?", xp: 150, d: "Основы накоплений", i: "piggy", color: "#0A84FF"},
+    {id: 2, t: "Как работают акции?", xp: 300, d: "Инвестиции для новичков", i: "chart", color: "#BF5AF2"},
+    {id: 3, t: "Осторожно, мошенники!", xp: 500, d: "Кибербезопасность", i: "shield", color: "#FF453A"},
+    {id: 4, t: "Кешбэк и бонусы", xp: 200, d: "Как получать больше", i: "percent", color: "#32D74B"},
+    {id: 5, t: "Инвестиции в будущее", xp: 400, d: "Долгосрочные вложения", i: "rocket", color: "#FF9F0A"}
+];
+
+// Achievements
+const ACHIEVEMENTS = [
+    {id: 'first_pay', i: 'shopping-cart', n: '1 покупка'},
+    {id: 'investor', i: 'chart-line', n: 'Инвестор'},
+    {id: 'saver', i: 'piggy-bank', n: 'Копилка'},
+    {id: 'academic', i: 'graduation-cap', n: 'Умник'},
+    {id: 'rich', i: 'crown', n: '10к+'},
+    {id: 'lucky', i: 'gem', n: 'Скин'},
+    {id: 'collector', i: 'trophy', n: '5 скинов'},
+    {id: 'trader', i: 'exchange-alt', n: '10 сделок'},
+    {id: 'team_player', i: 'users', n: 'Группа'}
+];
+
+// Subscriptions
+const SUBSCRIPTIONS = [
+    {id: 1, n: "Яндекс Плюс", p: 299, i: "play", color: "#FC3F1D", active: true},
+    {id: 2, n: "YouTube Premium", p: 269, i: "youtube", color: "#FF0000", active: true},
+    {id: 3, n: "Spotify", p: 199, i: "music", color: "#1DB954", active: false},
+    {id: 4, n: "Netflix", p: 799, i: "film", color: "#E50914", active: false}
+];
+
+// Challenges
+const CHALLENGES = [
+    {id: 1, t: "Неделя без фастфуда", desc: "Не трать на фастфуд 7 дней", reward: 500, current: 5, target: 7},
+    {id: 2, t: "Копилка", desc: "Отложи 5000 ₽ за месяц", reward: 1000, current: 3200, target: 5000},
+    {id: 3, t: "Инвестор", desc: "Сделай 5 инвестиций", reward: 750, current: 2, target: 5}
+];
+
+// Group Colors
+const GROUP_COLORS = ['#FFDD2D', '#0A84FF', '#32D74B', '#FF453A', '#BF5AF2', '#FF9F0A', '#00F0FF', '#FF6BB5'];
+
+const state = {
+    user: null,
+    market: JSON.parse(JSON.stringify(MARKET_BASE)),
+    events: {
+        5: {t:"Мерч за баллы", d:"Успей забрать лимитированную худи!", c:[]},
+        12: {t:"Стрим с экспертом", d:"Как накопить на первый байк.", c:[]},
+        21: {t:"Хакатон", d:"Реши задачу по коду и получи 5000 ₽", c:[]},
+        28: {t:"Кибер-Турнир", d:"Турнир по Dota 2. Приз — 10 000 ₽ на карту.", c:[]}
+    },
+    stories: [
+        {id: 1, i: "shield-alt", t: "Безопасность", txt: "Никому не говори свой PIN-код. Даже сотрудникам банка!"},
+        {id: 2, i: "gamepad", t: "Кешбэк", txt: "Выбери категорию 'Игры' и получай 5% с каждой покупки в Steam."},
+        {id: 3, i: "coins", t: "Т-Сейф", txt: "Спрячь деньги в Т-Сейф, чтобы не потратить их случайно. На них еще и процент капает!"},
+        {id: 4, i: "rocket", t: "Инвестиции", txt: "Начни с малого — даже 100 ₽ в месяц через год превратятся в серьёзную сумму!"}
+    ],
+    groups: [
+        {
+            id: 1,
+            name: "На подарок другу",
+            goal: 10000,
+            pool: 3500,
+            color: GROUP_COLORS[0],
+            members: [
+                {name: "Ты", avatar: "Т", contributed: 1500, color: "#FFDD2D"},
+                {name: "Макс", avatar: "М", contributed: 1000, color: "#0A84FF"},
+                {name: "Аня", avatar: "А", contributed: 1000, color: "#32D74B"}
+            ],
+            chat: [
+                {name: "Макс", text: "Ребята, давайте скинемся до пятницы!", time: "10:30"},
+                {name: "Аня", text: "Я уже 1000 перевела 💪", time: "11:15"},
+                {name: "Ты", text: "Отлично! Я тоже сегодня внесу", time: "12:00"}
+            ],
+            created: "2026-03-15"
+        },
+        {
+            id: 2,
+            name: "Поездка на море",
+            goal: 50000,
+            pool: 12000,
+            color: GROUP_COLORS[1],
+            members: [
+                {name: "Ты", avatar: "Т", contributed: 5000, color: "#FFDD2D"},
+                {name: "Катя", avatar: "К", contributed: 4000, color: "#BF5AF2"},
+                {name: "Дима", avatar: "Д", contributed: 3000, color: "#FF453A"}
+            ],
+            chat: [
+                {name: "Катя", text: "Кто уже смотрел билеты?", time: "09:00"},
+                {name: "Дима", text: "Я нашел хорошие варианты!", time: "09:30"}
+            ],
+            created: "2026-03-10"
+        }
+    ],
+    temp: { goalName: null, quizId: null, selEv: null, currentGroupId: null },
+    intervals: {},
+    tradeCount: 0,
+    darkTheme: true,
+    notifications: [
+        {id: 1, t: "Новое достижение!", d: "Вы получили ачивку 'Первая покупка'", time: "5 мин назад", read: false},
+        {id: 2, t: "Кешбэк начислен", d: "+250 ₽ за покупки в марте", time: "2 часа назад", read: false},
+        {id: 3, t: "Новый урок", d: "Доступен урок 'Инвестиции в будущее'", time: "1 день назад", read: true},
+        {id: 4, t: "Взнос в группу", d: "Макс внес 500 ₽ в 'На подарок другу'", time: "30 мин назад", read: false}
+    ]
+};
+
+/* =========================================
+   SVG ICONS LIBRARY
+========================================= */
+const icons = {
+    'shield-alt': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>',
+    'gamepad': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"></line><line x1="8" y1="10" x2="8" y2="14"></line><line x1="15" y1="13" x2="15.01" y2="13"></line><line x1="18" y1="11" x2="18.01" y2="11"></line><rect x="2" y="6" width="20" height="12" rx="2"></rect></svg>',
+    'coins': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"></circle><path d="M18.09 10.37A6 6 0 1 1 10.34 18"></path><path d="M7 6h1v4"></path><path d="m16.71 13.88.7.71-2.82 2.82"></path></svg>',
+    'rocket': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>',
+    'shopping-cart': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>',
+    'chart-line': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="m19 9-5 5-4-4-3 3"></path></svg>',
+    'piggy-bank': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2h0V5z"></path><path d="M2 9v1c0 1.1.9 2 2 2h1"></path><path d="M16 11h0"></path></svg>',
+    'graduation-cap': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>',
+    'crown': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>',
+    'gem': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l4 6-10 13L2 9Z"></path><path d="M11 3 8 9l4 13 4-13-3-6"></path><path d="M2 9h20"></path></svg>',
+    'trophy': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path></svg>',
+    'exchange-alt': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m16 3 4 4-4 4"></path><path d="M20 7H4"></path><path d="m8 21-4-4 4-4"></path><path d="M4 17h16"></path></svg>',
+    'users': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
+    'building': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2" ry="2"></rect><path d="M9 22v-4h6v4"></path><path d="M8 6h.01"></path><path d="M16 6h.01"></path><path d="M8 10h.01"></path><path d="M16 10h.01"></path><path d="M8 14h.01"></path><path d="M16 14h.01"></path></svg>',
+    'code': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+    'leaf': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>',
+    'bitcoin': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.767 19.089c4.924.868 6.14-6.025 1.216-6.894m-1.216 6.894L5.86 18.047m5.908 1.042-.347 1.97m1.563-8.864c4.924.869 6.14-6.025 1.215-6.893m-1.215 6.893-3.94-.694m5.155-6.2L8.279 5.307m2.145 3.284-.282 1.603M7.34 19.861 5.86 18.047m1.48-12.74L5.86 5.307m1.48 12.74-.347 1.97m11.348-1.97-1.48-1.97m-9.869-10.74 1.48 1.97m9.869 10.74.347-1.97"></path></svg>',
+    'play': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>',
+    'youtube': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"></path><path d="m10 15 5-3-5-3z"></path></svg>',
+    'music': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>',
+    'film': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="15" x="2" y="7" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>',
+    'percent': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="5" x2="5" y2="19"></line><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg>',
+    'piggy': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-3.5-1.5-11-.3-11 5 0 1.8 0 3 2 4.5V20h4v-2h3v2h4v-4c1-.5 1.7-1 2-2h2v-4h-2c0-1-.5-1.5-1-2h0V5z"></path><path d="M2 9v1c0 1.1.9 2 2 2h1"></path><path d="M16 11h0"></path></svg>',
+    'chart': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>',
+    'shield': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>'
+};
+
+/* =========================================
+   APPLICATION LOGIC
+========================================= */
+const app = {
+    init: () => {
+        const d = storage.load();
+        if(d.theme !== undefined) {
+            state.darkTheme = d.theme;
+        }
+        ui.applyTheme();
+        if(Object.keys(d).length > 0 && d.users) {
+            document.getElementById('screen-auth').style.display = 'flex';
+        } else {
+            document.getElementById('screen-auth').style.display = 'flex';
+            auth.toggle(true);
+        }
+    },
+    startSession: (email) => {
+        const d = storage.load();
+        state.user = d.users[email];
+        if(state.user?.groups) {
+            state.groups = state.user.groups;
+        }
+        document.getElementById('screen-auth').style.display = 'none';
+        document.getElementById('screen-pin').style.display = 'flex';
+    },
+    unlock: () => {
+        document.getElementById('screen-pin').style.display = 'none';
+        document.getElementById('app-main').style.display = 'block';
+        
+        if(!state.user.pChat || !state.user.pChat.length) {
+            state.user.pChat = [{s:'in', t:'Привет! Настроил тебе карту. Если нужны деньги на расходы — пиши сюда.'}];
+        }
+        if(!state.user.tasks || !state.user.tasks.length) {
+            state.user.tasks = [
+                {id: 1, t: "Помыть посуду", r: 150},
+                {id: 2, t: "Прочитать книгу", r: 300},
+                {id: 3, t: "Сделать уборку", r: 200}
+            ];
+        }
+        if(!state.user.subscriptions) state.user.subscriptions = SUBSCRIPTIONS;
+        if(!state.user.budget) state.user.budget = {total: 15000, categories: {}};
+        if(!state.user.cashback) state.user.cashback = [];
+        if(!state.user.groups) state.user.groups = state.groups;
+        if(!state.user.cardSkin) state.user.cardSkin = 'default';
+
+        ui.renderAll();
+        ui.renderMore();
+        ui.renderGroups();
+        
+        state.intervals.market = setInterval(logic.liveMarket, 3000);
+        state.intervals.safe = setInterval(logic.processSafe, 5000);
+    },
+    logout: () => {
+        clearInterval(state.intervals.market);
+        clearInterval(state.intervals.safe);
+        state.user = null;
+        location.reload();
+    }
+};
+
+/* =========================================
+   AUTH & PIN SYSTEM
+========================================= */
+const auth = {
+    isReg: false,
+    toggle: (forceReg) => {
+        auth.isReg = forceReg !== undefined ? forceReg : !auth.isReg;
+        document.getElementById('auth-login').style.display = auth.isReg ? 'none' : 'block';
+        document.getElementById('auth-reg').style.display = auth.isReg ? 'block' : 'none';
+        document.querySelector('#screen-auth h1').innerText = auth.isReg ? 'Регистрация' : 'T-Bank Teen';
+    },
+    register: () => {
+        const n = document.getElementById('reg-name').value;
+        const e = document.getElementById('reg-email').value;
+        const p = document.getElementById('reg-pass').value;
+        const c = document.getElementById('reg-policy').checked;
+        
+        if(!n || !e || !p) return ui.toast("Заполните все поля!");
+        if(!c) return ui.toast("Примите правила!");
+        
+        const d = storage.load();
+        if(!d.users) d.users = {};
+        if(d.users[e]) return ui.toast("Email уже занят!");
+
+        d.users[e] = { 
+            n, e, p, 
+            bal: 10000, inv: 0, safe: 0, xp: 0, lvl: 1, cardSkin: 'default',
+            ownedSkins: ['default'], hist: [], port: [], goals: [],
+            pChat: [], tasks: [], ach: [], academyDone: [], tradeCount: 0,
+            subscriptions: SUBSCRIPTIONS, budget: {total: 15000, categories: {}}, cashback: [],
+            streak: 5, groups: state.groups
+        };
+        storage.save(d);
+        ui.toast("✅ Успешная регистрация!");
+        auth.toggle(false);
+    },
+    login: () => {
+        const e = document.getElementById('log-email').value;
+        const p = document.getElementById('log-pass').value;
+        const d = storage.load();
+        if(d.users && d.users[e] && d.users[e].p === p) {
+            app.startSession(e);
+        } else {
+            ui.toast("❌ Неверный Email или Пароль");
+        }
+    }
+};
+
+const pin = {
+    val: "",
+    press: (num) => {
+        if(pin.val.length < 4) {
+            pin.val += num;
+            const dots = document.querySelectorAll('.pin-dot');
+            dots[pin.val.length - 1].classList.add('active');
+            
+            if(pin.val.length === 4) {
+                setTimeout(() => {
+                    app.unlock();
+                }, 300);
+            }
+        }
+    },
+    reset: () => {
+        pin.val = "";
+        document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('active'));
+    }
+};
+
+/* =========================================
+   UI RENDER ENGINE
+========================================= */
+let chartObj = null;
+
+const ui = {
+    toast: (m) => {
+        const t = document.getElementById('toast');
+        const msg = document.getElementById('toast-msg');
+        msg.innerText = m;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3000);
+    },
+    nav: (tab, btn) => {
+        document.querySelectorAll('.tab-content').forEach(x => x.style.display = 'none');
+        document.getElementById('tab-'+tab).style.display = 'block';
+        document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+        btn.classList.add('active');
+        
+        if(tab === 'stats') ui.renderStat();
+        if(tab === 'invest') ui.renderPortfolio();
+        if(tab === 'more') ui.renderAcademy();
+        if(tab === 'goals') ui.renderGoals();
+        if(tab === 'groups') ui.renderGroups();
+    },
+    toggleTheme: () => {
+        state.darkTheme = !state.darkTheme;
+        ui.applyTheme();
+        const d = storage.load();
+        d.theme = state.darkTheme;
+        storage.save(d);
+    },
+    applyTheme: () => {
+        const toggle = document.getElementById('themeToggle');
+        const handle = toggle.querySelector('.theme-toggle-handle');
+        if(state.darkTheme) {
+            document.body.classList.remove('light-theme');
+            toggle.classList.add('active');
+            handle.innerText = '🌙';
+        } else {
+            document.body.classList.add('light-theme');
+            toggle.classList.remove('active');
+            handle.innerText = '☀️';
+        }
+    },
+    sheet: (type, extra) => {
+        const m = document.getElementById('modal-sheet');
+        const c = document.getElementById('sheet-content');
+        m.classList.add('active');
+        
+        if(type === 'pay' || type === 'add') {
+            c.innerHTML = `
+                <h2 style="margin-bottom:18px;">${type==='pay'?'Оплата':'Пополнение'}</h2>
+                <input type="number" id="sh-amt" class="auth-input" placeholder="Сумма ₽">
+                ${type==='pay' ? `<select id="sh-cat" class="auth-input">
+                    <option value="Еда">Еда и Фастфуд</option>
+                    <option value="Игры">Игры и Софт</option>
+                    <option value="Транспорт">Транспорт</option>
+                    <option value="Прочее">Прочее</option>
+                </select>` : ''}
+                <button class="btn-primary" onclick="logic.transact('${type}')">Подтвердить</button>
+            `;
+        } else if(type === 'skins') {
+            const u = state.user;
+            c.innerHTML = `
+                <h2 style="margin-bottom:8px;">🎨 Скины карты</h2>
+                <p class="subtitle">Открывай скины за XP и задания</p>
+                <div style="display:grid; grid-template-columns:1fr; gap:12px; max-height: 55vh; overflow-y: auto; padding-bottom: 18px;">
+                    ${Object.keys(CARD_SKINS).map(k => {
+                        const s = CARD_SKINS[k];
+                        const owned = u.ownedSkins.includes(k);
+                        const rarityClass = 'rarity-' + s.r.toLowerCase();
+                        return `
+                        <div class="t-card" style="margin:0; opacity:${owned?1:0.5}; border: ${u.cardSkin===k?'2px solid var(--skin-color)':'1px solid var(--border)'}" onclick="${owned ? `logic.setCardSkin('${k}')` : `ui.toast('🔒 Открой в колесе!')`}">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                                <div class="rarity-tag ${rarityClass}">${s.r}</div>
+                                ${u.cardSkin===k ? '<span style="color:var(--skin-color); font-size:10px; font-weight:800;">● Активен</span>' : ''}
+                            </div>
+                            <div class="card-skin-preview ${u.cardSkin===k?'active':''}" style="background:linear-gradient(135deg, ${s.c}, #000);">
+                                <div style="text-align:center; color:#fff; font-weight:800;">
+                                    <div style="font-size:24px; margin-bottom:5px;">${s.n}</div>
+                                    <div style="font-size:11px; opacity:0.7;">T-Bank</div>
+                                </div>
+                            </div>
+                            <div style="font-weight:800; font-size:13px; margin-top:8px;">${s.n}</div>
+                        </div>`;
+                    }).join('')}
+                </div>
+                <button class="btn-primary" style="margin-top:12px; background: var(--t-purple); color: #fff;" onclick="ui.sheet('wheel')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M12 2a10 10 0 0 1 10 10"></path>
+                    </svg>
+                    Крутить колесо (50 XP)
+                </button>
+            `;
+        } else if(type === 'wheel') {
+            c.innerHTML = `
+                <h2 style="text-align:center;">🎡 Колесо Фортуны</h2>
+                <p style="text-align:center; color:var(--text-secondary); font-size:12px; margin-bottom:18px;">Цена прокрута: 50 XP | Повторка: +25 XP</p>
+                <div class="wheel-container">
+                    <div class="wheel-pointer">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="var(--skin-color)">
+                            <path d="M12 2L2 22h20L12 2z"></path>
+                        </svg>
+                    </div>
+                    <svg class="wheel-svg" id="roulette" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="48" fill="#1C1C1E" stroke="var(--skin-color)" stroke-width="2"/>
+                        <path d="M50 50 L98 50 A48 48 0 0 1 50 98 Z" fill="#0A84FF"/> 
+                        <path d="M50 50 L50 98 A48 48 0 0 1 2 50 Z" fill="#BF5AF2"/> 
+                        <path d="M50 50 L2 50 A48 48 0 0 1 50 2 Z" fill="#FFD60A"/> 
+                        <path d="M50 50 L50 2 A48 48 0 0 1 98 50 Z" fill="#FF375F"/> 
+                    </svg>
+                </div>
+                <button class="btn-primary" onclick="logic.spinWheel()">Испытать удачу!</button>
+            `;
+        } else if(type === 'goal') {
+            c.innerHTML = `
+                <h2 style="margin-bottom:18px;">🎯 Новая цель</h2>
+                <input type="text" id="gN" class="auth-input" placeholder="На что копим?">
+                <input type="number" id="gT" class="auth-input" placeholder="Сумма цели (₽)">
+                <button class="btn-primary" onclick="logic.addGoal()">Создать цель</button>
+            `;
+        } else if(type === 'split') {
+            c.innerHTML = `
+                <h2 style="margin-bottom:8px;">👥 Т-Сплит</h2>
+                <p class="subtitle">Разделите чек</p>
+                <input type="number" id="sp-total" class="auth-input" placeholder="Общая сумма (₽)">
+                <input type="number" id="sp-ppl" class="auth-input" placeholder="Количество человек">
+                <button class="btn-primary" onclick="logic.calcSplit()">Рассчитать</button>
+                <div id="sp-res" style="text-align:center; font-size:22px; font-weight:900; color:var(--skin-color); margin-top:18px;"></div>
+            `;
+        } else if(type === 'fund') {
+            state.temp.goalName = extra;
+            c.innerHTML = `
+                <h2 style="margin-bottom:18px;">💰 Пополнить "${extra}"</h2>
+                <input type="number" id="f-amt" class="auth-input" placeholder="Сколько перевести?">
+                <button class="btn-primary" onclick="logic.fundGoal()">Отложить деньги</button>
+            `;
+        } else if(type === 'sell') {
+            const item = state.user.port[extra];
+            const livePrice = state.market.find(m => m.n === item.n).p;
+            c.innerHTML = `
+                <h2 style="margin-bottom:8px;">💸 Продажа актива</h2>
+                <p style="margin-bottom:18px; font-size:14px;">Вы продаете <b>${item.n}</b>.<br>Текущая цена: <b style="color:var(--t-green);">${livePrice} ₽</b></p>
+                <button class="btn-primary" style="background:var(--t-red); color:#fff;" onclick="logic.sell(${extra})">Продать сейчас</button>
+            `;
+        } else if(type === 'quiz') {
+            const ac = ACADEMY.find(x => x.id === extra);
+            c.innerHTML = `
+                <h2 style="margin-bottom:8px;">📚 ${ac.t}</h2>
+                <p class="subtitle">Прочти и сдай тест!</p>
+                <div style="background:var(--surface-hover); padding:12px; border-radius:14px; font-size:13px; line-height:1.6; margin-bottom:18px;">
+                    Финансовая грамотность — это важно. Если ты откладываешь хотя бы 10% от своих карманных денег, то через год сможешь купить то, о чем мечтал.
+                </div>
+                <div style="font-weight:800; margin-bottom:12px; font-size:14px;">Вопрос: Сколько % нужно откладывать?</div>
+                <button class="btn-secondary" style="margin-bottom:8px; font-size:13px;" onclick="ui.toast('❌ Неверно!')">50%</button>
+                <button class="btn-secondary" style="margin-bottom:8px; font-size:13px;" onclick="logic.finishQuiz(${extra})">Минимум 10%</button>
+                <button class="btn-secondary" style="margin-bottom:8px; font-size:13px;" onclick="ui.toast('❌ Неверно!')">Всё тратить</button>
+            `;
+        } else if(type === 'cashback') {
+            c.innerHTML = `
+                <h2 style="margin-bottom:12px;">💳 Т-Кешбэк</h2>
+                <p class="subtitle">Выбери 3 категории</p>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+                    <button class="btn-secondary" style="font-size:13px;" onclick="ui.toast('✅ Выбрано!')">🍔 Еда</button>
+                    <button class="btn-secondary" style="font-size:13px;" onclick="ui.toast('✅ Выбрано!')">🎮 Игры</button>
+                    <button class="btn-secondary" style="font-size:13px;" onclick="ui.toast('✅ Выбрано!')">🚕 Транспорт</button>
+                    <button class="btn-secondary" style="font-size:13px;" onclick="ui.toast('✅ Выбрано!')">🎬 Кино</button>
+                    <button class="btn-secondary" style="font-size:13px;" onclick="ui.toast('✅ Выбрано!')">🛒 Магазины</button>
+                    <button class="btn-secondary" style="font-size:13px;" onclick="ui.toast('✅ Выбрано!')">✈️ Путешествия</button>
+                </div>
+                <button class="btn-primary" style="margin-top:18px; font-size:14px;" onclick="ui.close()">Сохранить</button>
+            `;
+        } else if(type === 'invest-edu') {
+            c.innerHTML = `
+                <h2 style="margin-bottom:12px;">📖 Основы инвестирования</h2>
+                <div class="academy-card" style="margin-bottom:10px;">
+                    <div class="academy-icon" style="background:#0A84FF;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M12 16v-4"></path>
+                            <path d="M12 8h.01"></path>
+                        </svg>
+                    </div>
+                    <div style="flex:1;">
+                        <div style="font-weight:800; font-size:13px;">Что такое инвестиции?</div>
+                        <div style="font-size:11px; color:var(--text-secondary);">5 мин</div>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="ui.close()">Закрыть</button>
+            `;
+        } else if(type === 'createGroup') {
+            c.innerHTML = `
+                <h2 style="margin-bottom:8px;">👥 Создать группу</h2>
+                <p class="subtitle">Общая копилка</p>
+                <input type="text" id="gr-name" class="auth-input" placeholder="Название">
+                <input type="number" id="gr-goal" class="auth-input" placeholder="Цель (₽)">
+                <input type="text" id="gr-members" class="auth-input" placeholder="Участники (через запятую)">
+                <button class="btn-primary" onclick="logic.createGroup()">Создать</button>
+            `;
+        } else if(type === 'contribute') {
+            state.temp.currentGroupId = extra;
+            const group = state.groups.find(g => g.id === extra);
+            c.innerHTML = `
+                <h2 style="margin-bottom:8px;">💰 Взнос в "${group.name}"</h2>
+                <p class="subtitle">Пополни копилку</p>
+                <div class="group-pool" style="margin-bottom:18px;">
+                    <div class="pool-title">Текущая сумма</div>
+                    <div class="pool-amount">${group.pool.toLocaleString()} ₽</div>
+                    <div class="pool-goal">из ${group.goal.toLocaleString()} ₽</div>
+                </div>
+                <input type="number" id="contrib-amt" class="auth-input" placeholder="Сумма (₽)">
+                <button class="btn-primary" onclick="logic.contributeToGroup(${extra})">Внести</button>
+            `;
+        }
+    },
+    close: () => {
+        const m = document.getElementById('modal-sheet');
+        m.classList.remove('active');
+    },
+    openGroupChat: (groupId) => {
+        const group = state.groups.find(g => g.id === groupId);
+        state.temp.currentGroupId = groupId;
+        
+        const modal = document.getElementById('groupChatModal');
+        const content = document.getElementById('group-chat-content');
+        
+        content.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:18px;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="group-avatar" style="background:${group.color}; width:45px; height:45px; font-size:18px;">${group.name.charAt(0)}</div>
+                    <div>
+                        <div style="font-weight:900; font-size:18px;">${group.name}</div>
+                        <div style="font-size:11px; color:var(--text-secondary);">${group.members.length} уч.</div>
+                    </div>
+                </div>
+                <div onclick="ui.closeGroupChat()" style="cursor:pointer;">
+                    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="group-pool" style="margin-bottom:18px;">
+                <div class="pool-title">Общая копилка</div>
+                <div class="pool-amount">${group.pool.toLocaleString()} ₽</div>
+                <div class="pool-goal">из ${group.goal.toLocaleString()} ₽</div>
+                <div class="xp-bar" style="margin-top:8px;">
+                    <div class="xp-fill" style="width:${(group.pool/group.goal)*100}%"></div>
+                </div>
+            </div>
+            
+            <div style="display:flex; gap:8px; margin-bottom:18px;">
+                <button class="btn-primary" style="flex:1; font-size:13px;" onclick="ui.sheet('contribute', ${group.id})">Внести</button>
+                <button class="btn-secondary" style="flex:1; font-size:13px;" onclick="ui.toast('Приглашение отправлено!')">Пригласить</button>
+            </div>
+            
+            <div class="group-chat-container">
+                <div class="group-chat-box" id="groupChatBox">
+                    ${group.chat.map(m => `
+                        <div class="msg ${m.name === 'Ты' ? 'out' : 'in'}" style="font-size:12px; padding:10px 14px;">
+                            <div style="font-size:10px; font-weight:800; margin-bottom:3px; opacity:0.7;">${m.name} • ${m.time}</div>
+                            ${m.text}
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="group-chat-input">
+                    <input type="text" id="groupMsgInput" class="auth-input" style="margin:0; padding:12px; border-radius:14px; font-size:13px;" placeholder="Сообщение...">
+                    <button onclick="logic.sendGroupMessage()" class="btn-primary" style="width:50px; border-radius:14px; padding:0;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="section-title" style="margin-top:20px; font-size:14px;">Участники</div>
+            <div class="member-list">
+                ${group.members.map(m => `
+                    <div class="member-chip">
+                        <div class="member-chip-avatar" style="background:${m.color};">${m.avatar}</div>
+                        ${m.name}
+                    </div>
+                `).join('')}
+            </div>
+            
+            <div class="section-title" style="margin-top:20px; font-size:14px;">Взносы</div>
+            <div id="contributionsList">
+                ${group.members.sort((a,b) => b.contributed - a.contributed).map(m => `
+                    <div class="contribution-item">
+                        <div class="contributor">
+                            <div class="contributor-avatar" style="background:${m.color};">${m.avatar}</div>
+                            <div>
+                                <div class="contributor-name">${m.name}</div>
+                                <div class="contributor-time">Внесено</div>
+                            </div>
+                        </div>
+                        <div class="contrib-amount">+${m.contributed.toLocaleString()} ₽</div>
+                    </div>
+                `).join('')}
+            </div>
+            
+            <div class="group-stats">
+                <div class="stat-box">
+                    <div class="stat-value">${group.members.length}</div>
+                    <div class="stat-label">Участников</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${Math.round((group.pool/group.goal)*100)}%</div>
+                    <div class="stat-label">Собрано</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-value">${group.chat.length}</div>
+                    <div class="stat-label">Сообщений</div>
+                </div>
+            </div>
+        `;
+        
+        modal.classList.add('active');
+        
+        setTimeout(() => {
+            const chatBox = document.getElementById('groupChatBox');
+            if(chatBox) chatBox.scrollTop = chatBox.scrollHeight;
+        }, 100);
+    },
+    closeGroupChat: () => {
+        document.getElementById('groupChatModal').classList.remove('active');
+    },
+    renderAll: () => {
+        const u = state.user;
+        document.getElementById('ui-name').innerText = u.n;
+        document.getElementById('ui-lvl').innerText = u.lvl;
+        document.getElementById('ui-bal').innerText = u.bal.toLocaleString() + ' ₽';
+        document.getElementById('ui-xp-bar').style.width = Math.min(u.xp, 100) + '%';
+        document.getElementById('ui-xp-text').innerText = `${u.xp} / 100 XP`;
+        document.getElementById('streak-count').innerText = u.streak || 5;
+        
+        document.getElementById('w-inv').innerText = u.inv.toLocaleString() + ' ₽';
+        document.getElementById('w-safe').innerText = (u.safe || 0).toLocaleString() + ' ₽';
+
+        document.body.className = state.darkTheme ? 'skin-' + u.cardSkin : 'skin-' + u.cardSkin + ' light-theme';
+        document.getElementById('ui-avatar').innerText = u.n.charAt(0).toUpperCase();
+        document.getElementById('ui-avatar').style.background = 'var(--skin-color)';
+        document.getElementById('ui-avatar').style.boxShadow = '0 4px 15px var(--skin-glow)';
+
+        document.getElementById('ui-stories').innerHTML = state.stories.map(s => `
+            <div class="story-circle" onclick="stories.open(${s.id})">
+                <div class="story-img" style="color: var(--skin-color);">
+                    ${icons[s.i] || icons['shield-alt']}
+                </div>
+            </div>
+        `).join('');
+
+        document.getElementById('ui-tasks').innerHTML = (u.tasks || []).map(t => `
+            <div class="t-card" style="display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:800; font-size:13px;">${t.t}</div>
+                    <div style="font-size:11px; color:var(--t-green); font-weight:800;">+${t.r} ₽</div>
+                </div>
+                <button class="btn-secondary" style="width:auto; padding:6px 14px; font-size:11px;" onclick="logic.completeTask(${t.id})">Сделал</button>
+            </div>
+        `).join('') || '<div class="t-card" style="text-align:center; opacity:0.5; font-size:13px;">Нет заданий</div>';
+
+        const pc = document.getElementById('pChat');
+        pc.innerHTML = (u.pChat || []).map(m => `<div class="msg ${m.s}">${m.t}</div>`).join('');
+        pc.scrollTop = pc.scrollHeight;
+
+        document.getElementById('ui-achievements').innerHTML = ACHIEVEMENTS.map(a => {
+            const unlocked = (u.ach || []).includes(a.id);
+            return `
+                <div class="ach-badge ${unlocked ? 'unlocked' : ''}">
+                    <div class="ach-icon" style="color: var(--skin-color);">
+                        ${icons[a.i] || icons['trophy']}
+                    </div>
+                    <span>${a.n}</span>
+                </div>
+            `;
+        }).join('');
+
+        ui.renderMarket();
+        ui.renderGoals();
+    },
+    renderStat: () => {
+        const u = state.user;
+        const cats = {}; 
+        (u.hist || []).forEach(h => cats[h.c] = (cats[h.c] || 0) + h.a);
+        const keys = Object.keys(cats).length ? Object.keys(cats) : ['Пусто'];
+        const vals = Object.values(cats).length ? Object.values(cats) : [1];
+        const total = vals.reduce((a,b)=>a+b, 0);
+
+        if(chartObj) chartObj.destroy();
+        
+        const ctx = document.getElementById('statChart');
+        if(ctx) {
+            chartObj = new Chart(ctx, {
+                type: 'doughnut',
+                data: { labels: keys, datasets: [{ data: vals, backgroundColor: CHART_COLORS, borderWidth: 0 }] },
+                options: { plugins: { legend: { display: false } }, cutout: '75%' }
+            });
+        }
+
+        const plan = u.budget?.total || 15000;
+        const perc = Math.min((total / plan) * 100, 100);
+        document.getElementById('ui-plan-perc').innerText = perc.toFixed(0) + '%';
+        document.getElementById('ui-plan-bar').style.width = perc + '%';
+        document.getElementById('ui-plan-text').innerText = `Потрачено ${total} ₽ из ${plan} ₽`;
+
+        document.getElementById('ui-stat-list').innerHTML = keys.map((k, i) => cats[k] ? `
+            <div class="list-item">
+                <span style="font-size:13px;"><i class="fas fa-circle" style="color:${CHART_COLORS[i%6]}; font-size:8px; margin-right:8px;"></i> ${k}</span>
+                <div style="text-align:right"><b style="font-size:13px;">${cats[k]} ₽</b><div style="font-size:10px; opacity:0.5;">${((cats[k]/total)*100).toFixed(1)}%</div></div>
+            </div>
+        ` : '').join('');
+
+        if(total > 0) {
+            const maxCat = keys[vals.indexOf(Math.max(...vals))];
+            document.getElementById('stat-insight-text').innerText = `Твоя главная статья расходов — "${maxCat}". Если урезать её на 20%, ты накопишь быстрее!`;
+        } else {
+            document.getElementById('stat-insight-text').innerText = 'Начни отслеживать расходы!';
+        }
+
+        const budgetCats = u.budget?.categories || {};
+        document.getElementById('budget-categories').innerHTML = Object.keys(budgetCats).length ? Object.keys(budgetCats).map(cat => `
+            <div class="budget-category">
+                <div style="flex:1;">
+                    <div style="font-weight:800; margin-bottom:6px; font-size:13px;">${cat}</div>
+                    <div class="budget-bar">
+                        <div class="budget-fill" style="width: ${Math.min((budgetCats[cat] / (plan/4)) * 100, 100)}%"></div>
+                    </div>
+                    <div style="font-size:10px; color:var(--text-secondary);">${budgetCats[cat]} ₽ из ${(plan/4).toFixed(0)} ₽</div>
+                </div>
+            </div>
+        `).join('') : '<div class="t-card" style="text-align:center; opacity:0.5; font-size:13px;">Нет данных</div>';
+    },
+    renderGoals: () => {
+        document.getElementById('ui-goals-list').innerHTML = (state.user.goals || []).map(g => `
+            <div class="t-card">
+                <div style="display:flex; justify-content:space-between; font-weight:800; font-size:14px;">
+                    <span>${g.n}</span><span>${g.c} / ${g.t} ₽</span>
+                </div>
+                <div class="xp-bar" style="height:10px; margin:12px 0;"><div class="xp-fill" style="width:${Math.min((g.c/g.t)*100, 100)}%"></div></div>
+                <button class="btn-secondary" style="font-size:12px;" onclick="ui.sheet('fund', '${g.n}')">+ Отложить</button>
+            </div>
+        `).join('') || '<div style="text-align:center; padding:18px; opacity:0.5; font-weight:600; font-size:13px;">Нет целей</div>';
+
+        document.getElementById('challenges-list').innerHTML = CHALLENGES.map(ch => `
+            <div class="challenge-card">
+                <div style="font-weight:800; font-size:14px; margin-bottom:6px;">${ch.t}</div>
+                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">${ch.desc}</div>
+                <div class="challenge-progress">
+                    <div class="challenge-bar">
+                        <div class="challenge-fill" style="width: ${(ch.current/ch.target)*100}%"></div>
+                    </div>
+                    <div style="font-weight:800; color:var(--skin-color); font-size:12px;">${ch.current}/${ch.target}</div>
+                </div>
+                <div style="font-size:11px; color:var(--t-green); margin-top:8px; font-weight:700;">+${ch.reward} XP</div>
+            </div>
+        `).join('');
+    },
+    renderMarket: () => {
+        document.getElementById('ui-market').innerHTML = state.market.map(m => `
+            <div class="list-item" style="padding:10px 0;">
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <div style="width:40px; height:40px; background:var(--surface-hover); border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; color: var(--skin-color);">
+                        ${icons[m.i] || icons['chart']}
+                    </div>
+                    <div><b style="font-size:13px;">${m.n}</b><div style="font-size:10px; color:var(--text-secondary);">Волатильность: ${m.vol}%</div></div>
+                </div>
+                <div style="text-align:right;">
+                    <b style="font-size:14px;">${m.p} ₽</b>
+                    <div style="color:var(--t-green); font-size:10px; font-weight:800; cursor:pointer; margin-top:4px; background:rgba(50,215,75,0.1); padding:3px 8px; border-radius:6px; display:inline-block;" onclick="logic.buy(${m.id})">КУПИТЬ</div>
+                </div>
+            </div>
+        `).join('');
+    },
+    renderPortfolio: () => {
+        document.getElementById('ui-inv-total').innerText = state.user.inv.toLocaleString() + ' ₽';
+        document.getElementById('ui-portfolio').innerHTML = (state.user.port || []).length ? state.user.port.map((p, i) => `
+            <div class="list-item">
+                <div style="font-weight:700; font-size:13px;">${p.n}</div>
+                <button class="btn-secondary" style="width:auto; padding:5px 12px; background:var(--t-red); color:#fff; font-size:11px;" onclick="ui.sheet('sell', ${i})">ПРОДАТЬ</button>
+            </div>
+        `).join('') : '<div style="text-align:center; opacity:0.5; font-weight:600; font-size:13px;">Портфель пуст</div>';
+    },
+    renderAcademy: () => {
+        document.getElementById('ui-academy').innerHTML = ACADEMY.map(a => {
+            const done = (state.user.academyDone || []).includes(a.id);
+            return `
+            <div class="academy-card" style="opacity:${done?0.5:1};" onclick="${done?'':`ui.sheet('quiz', ${a.id})`}">
+                <div class="academy-icon" style="background:${a.color};">
+                    ${icons[a.i] || icons['graduation-cap']}
+                </div>
+                <div style="flex:1;">
+                    <div style="font-weight:800; font-size:13px;">${a.t}</div>
+                    <div style="font-size:11px; color:var(--text-secondary); margin-top:2px;">${a.d}</div>
+                </div>
+                ${done ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--t-green)" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>' : `<div style="font-weight:800; color:var(--skin-color); font-size:12px;">+${a.xp} XP</div>`}
+            </div>`;
+        }).join('');
+    },
+    renderMore: () => {
+        const c = document.getElementById('ui-cal'); c.innerHTML = '';
+        for(let i=1; i<=28; i++) {
+            const d = document.createElement('div'); d.className = `cal-day ${state.events[i]?'active':''}`;
+            d.innerText = i;
+            d.onclick = () => {
+                if(state.events[i]) {
+                    state.temp.selEv = i;
+                    document.getElementById('evDetail').style.display = 'block';
+                    document.getElementById('evT').innerText = state.events[i].t;
+                    document.getElementById('evD').innerText = state.events[i].d;
+                    ui.renderEvChat();
+                }
+            };
+            c.appendChild(d);
+        }
+        
+        document.getElementById('subscriptions-list').innerHTML = (state.user.subscriptions || SUBSCRIPTIONS).map(s => `
+            <div class="subscription-card">
+                <div class="sub-icon" style="background:${s.color};">
+                    ${icons[s.i] || icons['play']}
+                </div>
+                <div class="sub-info">
+                    <div class="sub-name">${s.n}</div>
+                    <div class="sub-price">${s.p} ₽/мес</div>
+                </div>
+                <div class="toggle ${s.active ? 'active' : ''}" onclick="logic.toggleSub(${s.id})">
+                    <div class="toggle-handle"></div>
+                </div>
+            </div>
+        `).join('');
+    },
+    renderEvChat: () => {
+        const b = document.getElementById('evChat');
+        b.innerHTML = (state.events[state.temp.selEv].c || []).map(m => `<div class="msg out" style="font-size:11px; padding:6px 10px; max-width:90%;">${m.t}</div>`).join('');
+        b.scrollTop = b.scrollHeight;
+    },
+    renderGroups: () => {
+        const groupsList = document.getElementById('groups-list');
+        const activeGroups = document.getElementById('active-groups');
+        
+        if(state.groups.length === 0) {
+            groupsList.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <svg width="35" height="35" viewBox="0 0 24 24" fill="none" stroke="var(--skin-color)" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                        </svg>
+                    </div>
+                    <h3 style="margin-bottom:8px; font-size:16px;">Нет групп</h3>
+                    <p style="color:var(--text-secondary); font-size:12px;">Создай первую группу</p>
+                </div>
+            `;
+            activeGroups.innerHTML = '';
+            return;
+        }
+        
+        groupsList.innerHTML = state.groups.map(g => `
+            <div class="group-card" onclick="ui.openGroupChat(${g.id})">
+                <div class="group-header">
+                    <div class="group-avatar" style="background:${g.color};">${g.name.charAt(0)}</div>
+                    <div class="group-info">
+                        <div class="group-name">${g.name}</div>
+                        <div class="group-members">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            ${g.members.length} уч.
+                        </div>
+                    </div>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--skin-color)" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </div>
+                <div class="group-pool">
+                    <div class="pool-title">Общая копилка</div>
+                    <div class="pool-amount">${g.pool.toLocaleString()} ₽</div>
+                    <div class="pool-goal">из ${g.goal.toLocaleString()} ₽</div>
+                    <div class="xp-bar" style="margin-top:8px;">
+                        <div class="xp-fill" style="width:${(g.pool/g.goal)*100}%"></div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+        
+        activeGroups.innerHTML = `
+            <div class="t-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <div style="font-weight:800; font-size:13px;">Активных групп</div>
+                        <div style="font-size:10px; color:var(--text-secondary);">Всего участников</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:22px; font-weight:900; color:var(--skin-color);">${state.groups.length}</div>
+                        <div style="font-size:10px; color:var(--text-secondary);">${state.groups.reduce((sum, g) => sum + g.members.length, 0)} чел</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    },
+    showLevelUp: (lvl) => {
+        document.getElementById('lvlup-num').innerText = lvl;
+        document.getElementById('levelup').classList.add('active');
+        setTimeout(() => {
+            document.getElementById('levelup').classList.remove('active');
+        }, 2500);
+    }
+};
+
+/* =========================================
+   BUSINESS LOGIC
+========================================= */
+const logic = {
+    sync: () => {
+        const d = storage.load();
+        d.users[state.user.e] = state.user;
+        d.theme = state.darkTheme;
+        storage.save(d);
+        ui.renderAll();
+    },
+    checkAch: (id) => {
+        if(!(state.user.ach || []).includes(id)) {
+            state.user.ach.push(id);
+            ui.toast("🏆 Достижение!");
+            if((state.user.ach || []).includes('lucky') && state.user.ownedSkins.length >= 5) {
+                logic.checkAch('collector');
+            }
+        }
+    },
+    addXP: (val) => {
+        state.user.xp += val;
+        if(state.user.xp >= 100) {
+            state.user.lvl++; 
+            state.user.xp -= 100;
+            ui.toast("⚡ НОВЫЙ УРОВЕНЬ!");
+            ui.showLevelUp(state.user.lvl);
+        }
+    },
+    transact: (t) => {
+        const a = parseInt(document.getElementById('sh-amt').value);
+        if(!a || a<=0) return;
+        if(t === 'pay') {
+            const c = document.getElementById('sh-cat').value;
+            if(a > state.user.bal) return ui.toast("❌ Недостаточно средств");
+            state.user.bal -= a;
+            state.user.hist.push({a, c, t: 'pay'});
+            if(!state.user.budget.categories[c]) state.user.budget.categories[c] = 0;
+            state.user.budget.categories[c] += a;
+            logic.addXP(15);
+            logic.checkAch('first_pay');
+        } else {
+            state.user.bal += a;
+        }
+        logic.sync(); ui.close(); ui.toast("✅ Успешно!");
+    },
+    setCardSkin: (sk) => {
+        state.user.cardSkin = sk;
+        logic.sync(); ui.close(); ui.toast("🎨 Скин применён!");
+    },
+    spinWheel: () => {
+        if(state.user.xp < 50) return ui.toast("❌ Нужно 50 XP");
+        state.user.xp -= 50;
+        logic.sync();
+        
+        const deg = Math.floor(Math.random() * 360) + 1800;
+        document.getElementById('roulette').style.transform = `rotate(${deg}deg)`;
+        
+        setTimeout(() => {
+            const rand = Math.random() * 100;
+            let cumulative = 0;
+            let res = 'default';
+            
+            for(const [key, skin] of Object.entries(CARD_SKINS)) {
+                cumulative += skin.odds;
+                if(rand <= cumulative) {
+                    res = key;
+                    break;
+                }
+            }
+
+            if(!state.user.ownedSkins.includes(res)) {
+                state.user.ownedSkins.push(res);
+                ui.toast("🎉 НОВЫЙ СКИН: " + CARD_SKINS[res].n);
+                logic.checkAch('lucky');
+            } else {
+                logic.addXP(25);
+                ui.toast("🔄 Повторка! +25 XP");
+            }
+            logic.sync();
+        }, 4000);
+    },
+    addGoal: () => {
+        const n = document.getElementById('gN').value, t = parseInt(document.getElementById('gT').value);
+        if(n && t) { 
+            if(!state.user.goals) state.user.goals = [];
+            state.user.goals.push({n, t, c:0}); 
+            logic.sync(); ui.close(); 
+            ui.toast("🎯 Цель создана!");
+        }
+    },
+    fundGoal: () => {
+        const a = parseInt(document.getElementById('f-amt').value);
+        const g = state.user.goals.find(x => x.n === state.temp.goalName);
+        if(a && state.user.bal >= a) { 
+            state.user.bal -= a; g.c += a; 
+            logic.checkAch('saver'); logic.sync(); ui.close(); ui.toast("💰 Пополнено!"); 
+        } else ui.toast("❌ Мало денег");
+    },
+    calcSplit: () => {
+        const t = document.getElementById('sp-total').value, p = document.getElementById('sp-ppl').value;
+        if(t && p) document.getElementById('sp-res').innerText = (t/p).toFixed(2) + " ₽ с каждого";
+    },
+    finishQuiz: (id) => {
+        const ac = ACADEMY.find(x => x.id === id);
+        if(!state.user.academyDone) state.user.academyDone = [];
+        state.user.academyDone.push(id);
+        logic.addXP(ac.xp);
+        logic.checkAch('academic');
+        logic.sync(); ui.close(); ui.toast("✅ +" + ac.xp + " XP");
+    },
+    completeTask: (id) => {
+        const t = state.user.tasks.find(x => x.id === id);
+        state.user.bal += t.r; logic.addXP(50);
+        state.user.tasks = state.user.tasks.filter(x => x.id !== id);
+        logic.sync(); ui.toast("✅ Выполнено!");
+    },
+    buy: (id) => {
+        const x = state.market.find(v => v.id === id);
+        if(state.user.bal >= x.p) { 
+            state.user.bal -= x.p; state.user.inv += x.p; 
+            if(!state.user.port) state.user.port = [];
+            state.user.port.push({...x}); 
+            state.user.tradeCount = (state.user.tradeCount || 0) + 1;
+            logic.checkAch('investor');
+            if(state.user.tradeCount >= 10) logic.checkAch('trader');
+            logic.sync(); ui.toast("✅ Куплено!"); 
+        } else ui.toast("❌ Мало средств");
+    },
+    sell: (idx) => {
+        const item = state.user.port[idx];
+        const live = state.market.find(m => m.n === item.n).p;
+        state.user.bal += live; state.user.inv -= item.p;
+        state.user.port.splice(idx, 1);
+        state.user.tradeCount = (state.user.tradeCount || 0) + 1;
+        if(state.user.tradeCount >= 10) logic.checkAch('trader');
+        logic.sync(); ui.close(); ui.renderPortfolio(); ui.toast("✅ Продано!");
+    },
+    sendParentChat: () => {
+        const i = document.getElementById('pMsg'); if(!i.value) return;
+        if(!state.user.pChat) state.user.pChat = [];
+        state.user.pChat.push({s:'out', t: i.value}); i.value = ''; ui.renderAll();
+        setTimeout(() => { 
+            state.user.pChat.push({s:'in', t: 'Отлично! Вечером переведу.'}); 
+            logic.sync(); 
+        }, 1500);
+    },
+    sendEvChat: () => {
+        const i = document.getElementById('evInp'); if(!i.value) return;
+        state.events[state.temp.selEv].c.push({s:'out', t: i.value}); i.value = ''; ui.renderEvChat();
+    },
+    liveMarket: () => {
+        state.market.forEach(m => {
+            const change = Math.floor(Math.random() * (m.vol * 2)) - m.vol;
+            m.p = Math.max(100, m.p + change);
+        });
+        ui.renderMarket();
+    },
+    processSafe: () => {
+        if(state.user && state.user.safe > 0) {
+            const interest = Math.floor(state.user.safe * 0.001);
+            if(interest > 0) {
+                state.user.safe += interest;
+                if(document.getElementById('w-safe')) document.getElementById('w-safe').innerText = state.user.safe.toLocaleString() + ' ₽';
+                logic.sync();
+            }
+        }
+    },
+    toggleSub: (id) => {
+        const sub = state.user.subscriptions.find(s => s.id === id);
+        if(sub) {
+            sub.active = !sub.active;
+            logic.sync();
+            ui.toast(sub.active ? `✅ ${sub.n} активирована` : `❌ ${sub.n} отключена`);
+        }
+    },
+    createGroup: () => {
+        const name = document.getElementById('gr-name').value;
+        const goal = parseInt(document.getElementById('gr-goal').value);
+        const membersStr = document.getElementById('gr-members').value;
+        
+        if(!name || !goal) return ui.toast("❌ Заполните название и цель!");
+        
+        const members = membersStr.split(',').map(m => m.trim()).filter(m => m).slice(0, 5);
+        if(members.length < 2) return ui.toast("❌ Минимум 2 участника!");
+        
+        const color = GROUP_COLORS[state.groups.length % GROUP_COLORS.length];
+        const newGroup = {
+            id: Date.now(),
+            name: name,
+            goal: goal,
+            pool: 0,
+            color: color,
+            members: [
+                {name: "Ты", avatar: state.user.n.charAt(0).toUpperCase(), contributed: 0, color: "#FFDD2D"},
+                ...members.slice(0, 4).map((m, i) => ({
+                    name: m,
+                    avatar: m.charAt(0).toUpperCase(),
+                    contributed: 0,
+                    color: GROUP_COLORS[(i + 1) % GROUP_COLORS.length]
+                }))
+            ],
+            chat: [
+                {name: "Ты", text: `Группа "${name}" создана! 💪`, time: new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'})}
+            ],
+            created: new Date().toISOString().split('T')[0]
+        };
+        
+        state.groups.push(newGroup);
+        state.user.groups = state.groups;
+        logic.checkAch('team_player');
+        logic.sync();
+        ui.close();
+        ui.renderGroups();
+        ui.toast("✅ Группа создана!");
+    },
+    contributeToGroup: (groupId) => {
+        const amount = parseInt(document.getElementById('contrib-amt').value);
+        if(!amount || amount <= 0) return ui.toast("❌ Введите сумму!");
+        if(amount > state.user.bal) return ui.toast("❌ Недостаточно средств!");
+        
+        const group = state.groups.find(g => g.id === groupId);
+        if(!group) return;
+        
+        state.user.bal -= amount;
+        group.pool += amount;
+        
+        const userMember = group.members.find(m => m.name === "Ты");
+        if(userMember) {
+            userMember.contributed += amount;
+        }
+        
+        group.chat.push({
+            name: "Ты",
+            text: `Внес ${amount} ₽!`,
+            time: new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'})
+        });
+        
+        if(group.pool >= group.goal) {
+            ui.toast("🎉 Цель достигнута!");
+            logic.addXP(200);
+        } else {
+            logic.addXP(25);
+        }
+        
+        logic.sync();
+        ui.close();
+        ui.openGroupChat(groupId);
+        ui.toast("✅ Взнос внесен!");
+    },
+    sendGroupMessage: () => {
+        const input = document.getElementById('groupMsgInput');
+        if(!input.value) return;
+        
+        const group = state.groups.find(g => g.id === state.temp.currentGroupId);
+        if(!group) return;
+        
+        group.chat.push({
+            name: "Ты",
+            text: input.value,
+            time: new Date().toLocaleTimeString('ru-RU', {hour: '2-digit', minute:'2-digit'})
+        });
+        
+        input.value = '';
+        logic.sync();
+        ui.openGroupChat(state.temp.currentGroupId);
+    }
+};
+
+/* =========================================
+   NOTIFICATIONS SYSTEM
+========================================= */
+const notif = {
+    open: () => {
+        document.getElementById('notifCenter').classList.add('active');
+        const list = document.getElementById('notifList');
+        list.innerHTML = state.notifications.map(n => `
+            <div class="notif-item" style="opacity: ${n.read ? 0.6 : 1}">
+                <div style="font-weight:800; margin-bottom:4px; font-size:13px;">${n.t}</div>
+                <div style="font-size:12px; color:var(--text-secondary); margin-bottom:6px;">${n.d}</div>
+                <div style="font-size:10px; color:var(--text-secondary);">${n.time}</div>
+            </div>
+        `).join('');
+    },
+    close: () => {
+        document.getElementById('notifCenter').classList.remove('active');
+    }
+};
+
+/* =========================================
+   T-STORIES
+========================================= */
+let storyInterval;
+const stories = {
+    open: (id) => {
+        const s = state.stories.find(x => x.id === id);
+        const v = document.getElementById('storyViewer');
+        document.getElementById('storyIcon').innerHTML = icons[s.i] || icons['shield-alt'];
+        document.getElementById('storyIcon').style.color = 'var(--skin-color)';
+        document.getElementById('storyIcon').style.width = '70px';
+        document.getElementById('storyIcon').style.height = '70px';
+        document.getElementById('storyTitle').innerText = s.t;
+        document.getElementById('storyText').innerText = s.txt;
+        
+        const pc = document.getElementById('storyProgressContainer');
+        pc.innerHTML = state.stories.map((x, idx) => `
+            <div class="story-progress-bar">
+                <div class="story-progress-fill" id="story-fill-${x.id}" style="${x.id < id ? 'width:100%' : 'width:0'}"></div>
+            </div>
+        `).join('');
+
+        v.classList.add('active');
+        stories.play(id);
+    },
+    play: (id) => {
+        clearInterval(storyInterval);
+        const fill = document.getElementById(`story-fill-${id}`);
+        let w = 0;
+        storyInterval = setInterval(() => {
+            w += 1;
+            if(fill) fill.style.width = w + '%';
+            if(w >= 100) {
+                clearInterval(storyInterval);
+                if(id < state.stories.length) stories.open(id + 1);
+                else stories.close();
+            }
+        }, 30);
+    },
+    close: () => {
+        clearInterval(storyInterval);
+        document.getElementById('storyViewer').classList.remove('active');
+    }
+};
+
+// Initialize
+app.init();
+</script>
+</body>
+</html>
